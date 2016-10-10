@@ -1,0 +1,33 @@
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+class HalloWelt{
+	private static final Logger log = Logger.getLogger( HalloWelt.class.getName() );
+	public static void main(String[] args){
+
+	String[] schemes = {"http","https"}; // DEFAULT schemes = "http", "https", "ftp"
+	UrlValidator urlValidator = new UrlValidator(schemes);
+	if (urlValidator.isValid("ftp://foo.bar.com/")) {
+	   System.out.println("url is valid");
+	} else {
+	   System.out.println("url is invalid");
+	}
+		try{
+			System.out.println( args[0]+" "+"wird überwacht, drücken Sie eine beliebige Taste um das Programm zu beenden..." );
+			URL url = new URL(args[0]);
+			URLConnection con = url.openConnection();
+			con.connect();
+			Set s = con.getHeaderFields().entrySet();
+		}catch ( MalformedURLException e ){
+			log.log( Level.SEVERE, "nicht erreichbar!", e );
+		}catch ( IOException e ){
+			log.log( Level.SEVERE, "15-SEP-2011 14:01:00 Uhr :" + args[0] + " -> nicht erreichbar!", e );
+		}
+	}
+}
